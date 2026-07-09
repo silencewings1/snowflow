@@ -112,3 +112,16 @@ export async function getCategoryList(): Promise<Category[]> {
 	}
 	return ret;
 }
+
+// 获取项目列表，按 order 升序、同 order 再按 title 升序
+export async function getSortedProjects() {
+	const all = await getCollection("projects", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+	return all.sort((a, b) => {
+		if (a.data.order !== b.data.order) {
+			return a.data.order - b.data.order;
+		}
+		return a.data.title.localeCompare(b.data.title);
+	});
+}
