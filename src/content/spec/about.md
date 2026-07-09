@@ -1,9 +1,17 @@
-# About
-This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
+# 关于
 
-::github{repo="saicaca/fuwari"}
+snowflow 是我的个人项目集主页，承载项目展示与少量技术复盘记录。
 
-> ### Sources of images used in this site
-> - [Unsplash](https://unsplash.com/)
-> - [星と少女](https://www.pixiv.net/artworks/108916539) by [Stella](https://www.pixiv.net/users/93273965)
-> - [Rabbit - v1.4 Showcase](https://civitai.com/posts/586908) by [Rabbit_YourMajesty](https://civitai.com/user/Rabbit_YourMajesty)
+## 这里有什么
+
+- **项目展示**：[/projects](/projects/) 放我做过的项目，点击卡片跳转对应站点
+- **技术文章**：主要是项目复盘、架构决策、部署实践的记录，不追求更新频率
+- **二次元调性**：用了 [Fuwari](https://github.com/saicaca/fuwari) 主题，封面大图、毛玻璃、暗色模式
+
+## 技术栈
+
+本站基于 [Astro](https://astro.build/) + Fuwari 主题（Svelte + Tailwind + TypeScript），SSG 静态生成，托管在 VPS 的 nginx 上。
+
+## 联系
+
+- GitHub：[@silencewings1](https://github.com/silencewings1)
