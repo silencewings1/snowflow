@@ -1,7 +1,7 @@
 ---
 title: 出逃计划 Trip Mate
 description: 面向情侣、亲子、亲友和独行场景的旅行规划工具，一次填写目的地、日期、预算与偏好，生成每日路线、酒店比价、预算拆解和避坑提醒。
-image: tripmate/cover.webp
+image: tripmate/cover.jpg
 url: https://snowflow.cloud/projects/tripmate/
 embedded: true
 status: ongoing
