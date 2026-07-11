@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Build and atomically publish Snowflow without exposing a partial dist directory.
+# Build and atomically publish Snowflow from immutable release directories.
 set -euo pipefail
 
 umask 022
 
 BLOG_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-RELEASES_DIR="$BLOG_DIR/.releases"
-DIST_LINK="$BLOG_DIR/dist"
+DEPLOY_DIR="$BLOG_DIR/.deploy"
+RELEASES_DIR="$DEPLOY_DIR/releases"
+CURRENT_LINK="$DEPLOY_DIR/current"
 LOCK_FILE="/home/ospacer/.local/state/snowflow-site-deploy.lock"
 KEEP_RELEASES=5
 PNPM_CLI="${PNPM_CLI:-/home/ospacer/.cache/node/corepack/v1/pnpm/9.14.4/bin/pnpm.cjs}"
@@ -17,7 +18,7 @@ flock -n 9 || { echo "Another snowflow-site deployment is running" >&2; exit 1; 
 
 list_releases() {
   local current
-  current="$(readlink -f "$DIST_LINK" 2>/dev/null || true)"
+  current="$(readlink -f "$CURRENT_LINK" 2>/dev/null || true)"
   for release in "$RELEASES_DIR"/*; do
     [ -d "$release" ] || continue
     if [ "$release" = "$current" ]; then
@@ -30,9 +31,9 @@ list_releases() {
 
 switch_release() {
   local release_dir="$1"
-  local next_link="$BLOG_DIR/.dist.next"
+  local next_link="$DEPLOY_DIR/current.next"
   ln -sfn "$release_dir" "$next_link"
-  mv -Tf "$next_link" "$DIST_LINK"
+  mv -Tf "$next_link" "$CURRENT_LINK"
 }
 
 smoke_test() {
@@ -50,12 +51,21 @@ rollback_release() {
   if [ -n "$requested" ]; then
     target="$RELEASES_DIR/$requested"
   else
-    target="$(find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' | sort -nr | sed -n '2s/^[^ ]* //p')"
+    local current
+    current="$(readlink -f "$CURRENT_LINK" 2>/dev/null || true)"
+    target="$(find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
+      | sort -nr \
+      | cut -d' ' -f2- \
+      | while IFS= read -r release; do
+          [ "$release" = "$current" ] || { printf '%s\n' "$release"; break; }
+        done)"
   fi
 
   [ -n "$target" ] && [ -s "$target/index.html" ] || { echo "Rollback release not found" >&2; exit 1; }
+  local previous
+  previous="$(readlink -f "$CURRENT_LINK" 2>/dev/null || true)"
   switch_release "$target"
-  smoke_test
+  smoke_test || { [ -n "$previous" ] && switch_release "$previous"; exit 1; }
   printf 'Rolled back Snowflow to %s\n' "$(basename "$target")"
 }
 
@@ -78,7 +88,7 @@ esac
 cd "$BLOG_DIR"
 release_id="$(date -u +%Y%m%dT%H%M%S)-$(date -u +%N)-$(git rev-parse --short HEAD)"
 release_dir="$RELEASES_DIR/$release_id"
-previous_target="$(readlink -f "$DIST_LINK" 2>/dev/null || true)"
+previous_target="$(readlink -f "$CURRENT_LINK" 2>/dev/null || true)"
 switched=false
 
 cleanup() {
@@ -89,7 +99,7 @@ cleanup() {
       switch_release "$previous_target"
       smoke_test || true
     fi
-    if [ "$(readlink -f "$DIST_LINK" 2>/dev/null || true)" != "$release_dir" ]; then
+    if [ "$(readlink -f "$CURRENT_LINK" 2>/dev/null || true)" != "$release_dir" ]; then
       rm -rf "$release_dir"
     fi
   fi
@@ -107,18 +117,12 @@ done
 find "$release_dir/_astro" -type f -print -quit | grep -q . || { echo "Missing Astro assets" >&2; exit 1; }
 chmod -R a+rX "$release_dir"
 
-if [ -d "$DIST_LINK" ] && [ ! -L "$DIST_LINK" ]; then
-  initial_release="$RELEASES_DIR/$(date -u +%Y%m%dT%H%M%SZ)-initial"
-  mv "$DIST_LINK" "$initial_release"
-  previous_target="$initial_release"
-fi
-
 switch_release "$release_dir"
 switched=true
 smoke_test
 switched=false
 
-current_target="$(readlink -f "$DIST_LINK")"
+current_target="$(readlink -f "$CURRENT_LINK")"
 find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
   | sort -nr \
   | cut -d' ' -f2- \
