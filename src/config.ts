@@ -30,7 +30,7 @@ export const siteConfig: SiteConfig = {
 		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
 	},
 	favicon: [
-		{ src: "/favicon/snowflow-v1.svg", sizes: "any" },
+		{ src: "/favicon/snowflow-v2.svg", sizes: "any" },
 		{ src: "/favicon/favicon-light-32.png", sizes: "32x32" },
 		{ src: "/favicon/favicon-light-180.png", sizes: "180x180" },
 	],
