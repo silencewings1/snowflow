@@ -1,6 +1,5 @@
 ---
 import { Icon } from "astro-icon/components";
-import SnowflowLogo from "./SnowflowLogo.astro";
 import { navBarConfig, siteConfig } from "../config";
 import { LinkPresets } from "../constants/link-presets";
 import { LinkPreset, type NavBarLink } from "../types/config";
@@ -26,13 +25,10 @@ let links: NavBarLink[] = navBarConfig.links.map(
     <div class:list={[
         className,
         "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
-        <a href={url('/')} aria-label={`${siteConfig.title} · ${siteConfig.subtitle}`} class="btn-plain scale-animation rounded-lg h-[3.5rem] min-w-0 px-2 sm:px-3 font-bold active:scale-95">
-            <div class="flex min-w-0 items-center text-[var(--primary)] gap-2.5 sm:gap-3">
-                <SnowflowLogo class="h-9 w-9 shrink-0" />
-                <div class="flex min-w-0 flex-col justify-center whitespace-nowrap text-left">
-                    <span class="text-[1.2rem] font-extrabold leading-[1.05]">{siteConfig.title}</span>
-                    <span class="mt-1 text-[0.78rem] font-semibold leading-none opacity-70">{siteConfig.subtitle}</span>
-                </div>
+        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
+            <div class="flex flex-row text-[var(--primary)] items-center text-md">
+                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
+                {siteConfig.title}
             </div>
         </a>
         <div class="hidden md:flex">
