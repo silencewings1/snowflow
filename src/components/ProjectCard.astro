@@ -44,7 +44,8 @@ const statusInfo = statusMap[status];
                 )}
             </div>
             <ImageWrapper src={image} basePath="content/projects/" alt={`Cover of ${title}`}
-                          class="w-full h-full">
+                          class="w-full h-full" format="webp" widths={[320, 480, 640, 800, 960]}
+                          sizes="(min-width: 1024px) 432px, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)">
             </ImageWrapper>
         </a>
     )}

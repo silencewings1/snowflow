@@ -97,6 +97,8 @@ Astro 使用 `src/pages` 文件系统路由，没有传统的 `main.ts`：
 - 同域子路径项目使用 `embedded: true`；外部链接使用 `embedded: false`。
 - 内容关联图片优先放在对应内容目录；全站资源放在 `src/assets/images/`。
 - 资源位于 `src` 时使用相对 `src` 的路径；以 `/` 开头的资源路径必须对应 `public`。
+- 项目主图必须放在 `src/content/projects/` 对应项目目录，并在 frontmatter 中使用相对路径；不得使用 `/` 开头的 `public` 路径绕过 Astro 图片优化。
+- `/projects/` 中所有项目主图必须通过 Astro Image 管线输出响应式 WebP，显式设置 `format="webp"`、适用于项目卡的 `widths` 和 `sizes`。生成 HTML 的 `src` 和全部 `srcset` 候选不得引用原始 PNG、JPG 或 JPEG。
 
 ## 编码与设计约定
 
@@ -119,6 +121,7 @@ Astro 使用 `src/pages` 文件系统路由，没有传统的 `main.ts`：
 - 文档或纯内容改动：检查 frontmatter、链接和 `git diff --check`。
 - TypeScript、Astro 或 Svelte 改动：运行 `pnpm check`。
 - 内容集合、路由、构建配置、图片处理或搜索改动：运行 `pnpm build`。
+- 项目主图或项目图片组件改动：检查 `dist/projects/index.html` 的 `src`、`srcset` 和 `sizes`，确保所有项目主图候选均为 WebP，且不存在原始 PNG、JPG 或 JPEG URL。
 - TypeScript 工具模块或共享类型改动：视情况运行 `pnpm type-check`。
 - UI 改动：除构建外，使用实际页面检查桌面端和移动端布局及交互。
 - Nginx 改动：运行可用的 Nginx 配置语法检查，并明确说明无法在本机验证的上游服务。
