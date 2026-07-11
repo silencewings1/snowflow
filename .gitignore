@@ -1,6 +1,7 @@
 # build output
 dist
 .deploy/
+.releases/
 
 # generated types
 .astro/
