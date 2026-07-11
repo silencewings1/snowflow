@@ -1,7 +1,7 @@
 ---
 title: 今日宜吃
 description: 基于黄历的 AI 开运菜单生成器 —— 每日食历 + 抽签推荐 + 自由文本解析。每天给你一签、一菜、一份干饭宜忌，搭配幸运三件套（口味 / 颜色 / 方位）。
-image: todayfood/cover.png
+image: todayfood/cover.jpg
 url: https://snowflow.cloud/projects/todayfood
 embedded: true
 status: ongoing
