@@ -1,5 +1,5 @@
 ---
-title: 今日宜吃的架构设计
+title: 今日宜吃 / today food 的架构设计
 published: 2026-07-08
 description: 一个基于黄历的 AI 开运菜单生成器，前端 Vue 3 + 后端 FastAPI + openai-agents，monorepo 组织三个工程。
 tags: [todayfood, Vue, FastAPI, AI, 架构]
@@ -7,7 +7,7 @@ category: 项目复盘
 draft: false
 ---
 
-[今日宜吃](https://food.example.com)是我做的一个小项目：基于黄历的 AI 开运菜单生成器，每天给你一签、一菜、一份干饭宜忌，搭配幸运三件套（口味/颜色/方位）。小程序竖屏布局，所有内容当日固定，凌晨 0 点按北京时间切换。
+[今日宜吃 / today food](https://snowflow.cloud/projects/todayfood/) 是我做的一个小项目：基于黄历的 AI 开运菜单生成器，每天给你一签、一菜、一份干饭宜忌，搭配幸运三件套（口味/颜色/方位）。小程序竖屏布局，所有内容当日固定，凌晨 0 点按北京时间切换。
 
 这篇复盘它的架构设计。
 
