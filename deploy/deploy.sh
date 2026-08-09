@@ -8,9 +8,9 @@ BLOG_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 DEPLOY_DIR="$BLOG_DIR/.deploy"
 RELEASES_DIR="$DEPLOY_DIR/releases"
 CURRENT_LINK="$DEPLOY_DIR/current"
-LOCK_FILE="/home/ospacer/.local/state/snowflow-site-deploy.lock"
+LOCK_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/snowflow-site-deploy.lock"
 KEEP_RELEASES=5
-PNPM_CLI="${PNPM_CLI:-/home/ospacer/.cache/node/corepack/v1/pnpm/9.14.4/bin/pnpm.cjs}"
+PNPM_CLI="${PNPM_CLI:-$HOME/.cache/node/corepack/v1/pnpm/9.14.4/bin/pnpm.cjs}"
 
 mkdir -p "$(dirname "$LOCK_FILE")" "$RELEASES_DIR"
 exec 9>"$LOCK_FILE"
