@@ -1,8 +1,8 @@
 ---
 title: 旅游计划 - 新疆
 description: 新疆 12 天自驾计划（2026 秋）——每日路线、景点推荐、住宿与预算整理的交互式旅行指南。
-image: ""
-url: https://snowflow.cloud/travel-xinjiang
+image: travel-xinjiang/cover.webp
+url: https://snowflow.cloud/projects/travel-xinjiang
 embedded: true
 status: ongoing
 tags:
